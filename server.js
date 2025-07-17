@@ -10,12 +10,15 @@ const express = require("express")
 const env = require("dotenv").config()
 const app = express()
 const path = require("path")
+const expressLayouts = require("express-ejs-layouts") // ✅ 加入 layout 模块
 
 /* ***********************
  * View Engine Setup
  *************************/
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
+app.use(expressLayouts) // ✅ 启用 layout 功能
+app.set("layout", "./layouts/layout") // ✅ 指定 layout 文件路径（相对于 views 文件夹）
 
 /* ***********************
  * Static Route
