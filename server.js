@@ -10,15 +10,15 @@ const express = require("express")
 const env = require("dotenv").config()
 const app = express()
 const path = require("path")
-const expressLayouts = require("express-ejs-layouts") // ✅ 加入 layout 模块
+const expressLayouts = require("express-ejs-layouts")
 
 /* ***********************
  * View Engine Setup
  *************************/
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
-app.use(expressLayouts) // ✅ 启用 layout 功能
-app.set("layout", "./layouts/layout") // ✅ 指定 layout 文件路径（相对于 views 文件夹）
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout")
 
 /* ***********************
  * Static Route
@@ -30,6 +30,28 @@ app.use(express.static(path.join(__dirname, "public")))
  *************************/
 const staticRoute = require("./routes/static")
 app.use("/", staticRoute)
+
+// Add inventory route
+const inventoryRoute = require("./routes/inventoryRoute")
+app.use("/inventory", inventoryRoute)
+
+// Optional: error route to trigger 500
+const errorRoute = require("./routes/errorRoute")
+app.use("/", errorRoute)
+
+/* ***********************
+ * Error Handling
+ *************************/
+// Handle 404 - Page Not Found
+app.use((req, res, next) => {
+  res.status(404).render("error/404", { title: "404 Error" });
+});
+
+// Handle 500 - Server Errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).render("error/500", { title: "500 Error" });
+});
 
 /* ***********************
  * Local Server Information
