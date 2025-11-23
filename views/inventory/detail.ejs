@@ -1,6 +1,23 @@
-<%- include('../partials/header') %>
-<main class="detail-container">
-  <h1><%= title %></h1>
-  <%= content %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= title %></title>
+</head>
+<body>
+
+  <!-- 顶部：站点头部 -->
+  <%- include('../partials/header') %>
+
+  <!-- 主导航 -->
+  <%- include('../partials/navigation') %>
+
+  <!-- 主内容 -->
+<main class="main-content">
+  <%- content %>   <!-- 注意是 - 号 -->
 </main>
-<%- include('../partials/footer') %>
+  <!-- 页脚 -->
+  <%- include('../partials/footer') %>
+
+</body>
+</html>
